@@ -1,0 +1,37 @@
+{
+  "name": "api_typescript_mysql",
+  "version": "1.0.0",
+  "description": "Ejemplo de API REST básica",
+  "main": "app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/norbeydanilo/api_typescript_mysql.git"
+  },
+  "keywords": [
+    "Nodejs",
+    "Expressjs",
+    "MySQL",
+    "Typescript",
+    "API",
+    "REST"
+  ],
+  "author": "Norbey Danilo Muñoz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/norbeydanilo/api_typescript_mysql/issues"
+  },
+  "homepage": "https://github.com/norbeydanilo/api_typescript_mysql#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mysql2": "^3.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1"
+  }
+}
