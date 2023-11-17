@@ -40,7 +40,8 @@ You can clone this repo as starter project for your Express, MySQL API server
 
 **4.** **🎉 Open postman and test the rest api on this url `https://127.0.0.1:3000`**
 
-Remember that the .env file must be created for the API to work.
+Remember that the `.env` file must be created for the API to work.
+
 You must run the [`script.sql`](https://github.com/norbeydanilo/api_typescript_mysql/blob/main/script.sql) script to create the database.
 
 Additionally this project uses: 
