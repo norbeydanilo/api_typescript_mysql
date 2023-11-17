@@ -13,8 +13,11 @@ dotenv.config();
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/orders', orderRouter);
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.get('/', (req, res) => {
+	res.type('text/plain');
+	res.status(200).send('Welcome! Go to /api-docs to see the documentation');
+});
 
 db.connect((err) => {
 	if (err) {
@@ -25,7 +28,7 @@ db.connect((err) => {
 });
 
 app.use((req: Request, res: Response) => {
-	res.status(404).send({ error: 'Not Found', message: 'Welcome! Go to /api-docs for documentation' });
+	res.status(404).send({ error: 'Not Found', message: 'URL not found' });
 });
 
 app.listen(process.env.PORT, () => {
