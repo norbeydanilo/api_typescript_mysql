@@ -11,7 +11,7 @@ export interface Order extends BasicOrder {
   orderId: number
 }
 
-export interface OrderWithDetails extends Order{
+export interface OrderWithDetails extends Order {
   product: Product,
   customer: Customer
 }

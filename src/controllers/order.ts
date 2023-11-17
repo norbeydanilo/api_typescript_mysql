@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { BasicOrder, Order, OrderWithDetails } from '../types/order';
-import { db } from '../db';
+import { db } from '../../db';
 import { OkPacket, RowDataPacket } from 'mysql2';
 
 export const create = (order: BasicOrder, callback: Function) => {
@@ -95,17 +95,18 @@ export const findAll = (callback: Function) => {
 	});
 };
 
-export const update = (order: Order, callback: Function) => {
+export const update = (orderId: number, order: Order, callback: Function) => {
 	const queryString = 'UPDATE ProductOrder SET product_id=?, product_quantity=? WHERE order_id=?';
 
 	db.query(
 		queryString,
-		[order.product.id, order.productQuantity, order.orderId],
+		// [order.product.id, order.productQuantity, order.orderId] 
+		[order.product.id, order.productQuantity, orderId],
 		(err, result) => {
 			if (err) { callback(err); }
 
 			const numUpdate = (<OkPacket>result).affectedRows;
-			callback(null, numUpdate);
+			callback(null, numUpdate, orderId);
 		}
 	);
 };

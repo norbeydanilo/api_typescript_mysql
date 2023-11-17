@@ -1,0 +1,407 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Node.js con Express y MySQL",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:{port}",
+      "description": "Servidor local",
+      "variables": {
+        "port": {
+          "default": "3000"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/orders": {
+      "get": {
+        "summary": "Obtiene todas las órdenes",
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderWithDetails"
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "data": [
+                        {
+                          "orderId": 1,
+                          "customer": {
+                            "id": 1,
+                            "name": "Cliente 1",
+                            "email": "cliente1@example.com"
+                          },
+                          "product": {
+                            "id": 1,
+                            "name": "Producto 1",
+                            "description": "Descripción del producto 1",
+                            "instockQuantity": 10,
+                            "price": 100
+                          },
+                          "productQuantity": 2
+                        },
+                        {
+                          "orderId": 2,
+                          "customer": {
+                            "id": 2,
+                            "name": "Cliente 2",
+                            "email": "cliente2@example.com"
+                          },
+                          "product": {
+                            "id": 2,
+                            "name": "Producto 2",
+                            "description": "Descripción del producto 2",
+                            "instockQuantity": 5,
+                            "price": 200
+                          },
+                          "productQuantity": 1
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      },
+      "post": {
+        "summary": "Crea una nueva orden",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BasicOrder"
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "product": {
+                      "id": 1
+                    },
+                    "customer": {
+                      "id": 1
+                    },
+                    "productQuantity": 2
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Orden creada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "orderId": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "orderId": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error al crear la orden"
+          }
+        }
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "summary": "Obtiene una orden por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "examples": {
+              "example-1": {
+                "value": 1
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderWithDetails"
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "data": {
+                        "orderId": 1,
+                        "customer": {
+                          "id": 1,
+                          "name": "Cliente 1",
+                          "email": "cliente1@example.com"
+                        },
+                        "product": {
+                          "id": 1,
+                          "name": "Producto 1",
+                          "description": "Descripción del producto 1",
+                          "instockQuantity": 10,
+                          "price": 100
+                        },
+                        "productQuantity": 2
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Orden no encontrada"
+          }
+        }
+      },
+      "put": {
+        "summary": "Actualiza una orden por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "examples": {
+              "example-1": {
+                "value": 1
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "product": {
+                      "id": 1
+                    },
+                    "customer": {
+                      "id": 1
+                    },
+                    "productQuantity": 2
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Orden actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Record(s) updated": {
+                      "type": "number"
+                    },
+                    "Id": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "Record(s) updated": 1,
+                      "Id": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Orden no encontrada"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BasicProduct": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID del producto"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID del producto"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del producto"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descripción del producto"
+          },
+          "instockQuantity": {
+            "type": "number",
+            "description": "Cantidad del producto"
+          },
+          "price": {
+            "type": "number",
+            "description": "Precio del producto"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "instockQuantity",
+          "price"
+        ]
+      },
+      "BasicCustomer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID del cliente"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID del cliente"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nombre del cliente"
+          },
+          "email": {
+            "type": "string",
+            "description": "Correo del cliente"
+          },
+          "password": {
+            "type": "string",
+            "description": "Contraseña del cliente"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "BasicOrder": {
+        "type": "object",
+        "properties": {
+          "product": {
+            "$ref": "#/components/schemas/BasicProduct"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/BasicCustomer"
+          },
+          "productQuantity": {
+            "type": "number",
+            "description": "Cantidad del producto"
+          }
+        },
+        "required": [
+          "product",
+          "customer",
+          "productQuantity"
+        ]
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "number",
+            "description": "ID de la orden"
+          }
+        },
+        "required": [
+          "orderId"
+        ]
+      },
+      "OrderWithDetails": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "number",
+            "description": "ID de la orden"
+          },
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "productQuantity": {
+            "type": "number",
+            "description": "Cantidad del producto"
+          }
+        },
+        "required": [
+          "orderId",
+          "product",
+          "customer",
+          "productQuantity"
+        ]
+      }
+    }
+  }
+}
