@@ -217,9 +217,6 @@
                     "product": {
                       "id": 1
                     },
-                    "customer": {
-                      "id": 1
-                    },
                     "productQuantity": 2
                   }
                 }
